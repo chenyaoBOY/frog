@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>青蛙数据</title>
+		<link rel="stylesheet" type="text/css" href="css/layui.css">
+		<link rel="stylesheet" type="text/css" href="css/frog/businessLoan.css"/>
+	</head>
+
+	<body class="layui-layout-body">
+		<div class="layui-layout layui-layout-admin">
+			<!--头部导航栏-->
+			<div class="layui-header">
+				<div class="layui-logo">青蛙数据 FrogData</div>
+				<!-- 头部区域（可配合layui已有的水平导航） -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item layui-this">
+						<a href="">房贷通</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="">计算器</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="">青蛙社区<span class="layui-badge-dot"></span></a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">其它工具</a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="">超级计算器</a>
+							</dd>
+							<dd>
+								<a href="">消息管理</a>
+							</dd>
+							<dd>
+								<a href="">授权管理</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+						<a href="">更多功能，敬请期待！</a>
+					</li>
+				</ul>
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<img src="http://t.cn/RCzsdCq" class="layui-nav-img"> 贤心
+						</a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="">基本资料</a>
+							</dd>
+							<dd>
+								<a href="">安全设置</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+						<a href="">退了</a>
+					</li>
+				</ul>
+			</div>
+
+			<!--侧边栏-->
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+					<ul class="layui-nav layui-nav-tree" lay-filter="test">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a class="" href="javascript:;">算首付</a>
+							<dl class="layui-nav-child">
+								<dd >
+									<a href="http://39.107.93.94:8080/frog/index.do">算首付</a>
+								</dd>
+							</dl>
+							<dl class="layui-nav-child">
+								<dd >
+									<a href="javascript:;">费用导出</a>
+								</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed">
+							<a class="" href="javascript:;">算月供</a>
+							<dl class="layui-nav-child">
+								<dd >
+									<a href="javascript:;">等额本息</a>
+								</dd>
+							</dl>
+							<dl class="layui-nav-child">
+								<dd >
+									<a href="javascript:;">等额本金</a>
+								</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed" >
+							<a href="javascript:;">算贷款</a>
+							<dl class="layui-nav-child">
+								<dd class="layui-this">
+									<a href="http://39.107.93.94:8080/frog/test.do">商业贷款</a>
+								</dd>
+								<dd>
+									<a href="javascript:;">公积金贷款</a>
+								</dd>
+								<dd>
+									<a href="">组合贷款</a>
+								</dd>
+							</dl>
+						</li>
+						<li class="layui-nav-item">
+							<a href="javascript:;">客户列表</a>
+						</li>
+						<li class="layui-nav-item">
+							<a href="javascript:;">模板列表</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<!--主体-->
+			<div class="layui-body">
+				<!-- 内容主体区域 -->
+				<div style="padding: 15px;">商业贷款计算</div>
+
+				<div class="layui-collapse" lay-accordion="" style="margin-left: 30px;">
+				  <div class="layui-colla-item">
+					<h2 class="layui-colla-title">怎么计算的呢？<i class="layui-icon layui-colla-icon"></i></h2>
+					<div class="layui-colla-content layui-show">
+						计算原则：银行从每月月供款中，先收剩余本金利息，后收本金；利息在月供款中的比例中随剩余本金的减少而降低，本金在月供款中的比例因增加而升高，但月供总额保持不变。
+						<br>计算公式：等额本息贷款买房时，每月还款额计算公式为：
+						[贷款本金×月利率×（1+月利率）^还款月数]÷[（1+月利率）^还款月数－1]
+					</div>
+
+				  </div>
+				</div>
+
+
+				<form class="layui-form layui-form-pane" id="businessForm" style="margin-left: 90px;width: 55%;float: left">
+					<div class="layui-form-item" style="margin-top: 30px">
+						<label class="layui-form-label">贷款总额</label>
+						<div class="layui-input-inline">
+							<input type="text" onblur="checkNumber('0')" lay-filter="totalMoney" id="totalMoney" name="totalMoney" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+							<div class="layui-form-mid layui-word-aux">单位：万元</div>
+						</div>
+						<div class="layui-form-mid layui-word-aux in_tip"  id="totalMoney_tip" hidden="hidden"></div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">贷款利率</label>
+						<div class="layui-input-inline" >
+							<input type="text"  onblur="checkNumber('1')" value="4.9" lay-filter='rate' name="rate" id="rate" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+							<div class="layui-form-mid layui-word-aux">%</div>
+						</div>
+
+						<div class="layui-input-inline">
+							<select name="selectRate"  lay-filter="selectRate" lay-filter="aihao" id="selectRate" >
+								<option value="4.9" selected >最新基准利率</option>
+								<option value="5.145">基准利率上浮5%</option>
+								<option value="5.39">基准利率上浮10%</option>
+								<option value="5.635">基准利率上浮15%</option>
+								<option value="5.88">基准利率上浮20%</option>
+								<option value="4.802">基准利率98折</option>
+								<option value="4.655">基准利率95折</option>
+								<option value="4.41">基准利率9折</option>
+								<option value="4.165">基准利率85折</option>
+							</select>
+						</div>
+						<div class="layui-form-mid layui-word-aux in_tip" id="selectRate_tip" hidden="hidden"></div>
+
+					</div>
+					<div class="layui-form-item" >
+						<label class="layui-form-label">贷款年数</label>
+						<div class="layui-input-inline">
+							<input type="text" lay-filter='loanYear' onblur="checkNumber('2')" id="loanYear" value="25" name="loanYear" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+							<div class="layui-form-mid layui-word-aux">年</div>
+						</div>
+						<div class="layui-form-mid layui-word-aux in_tip" id="loanYear_tip" hidden="hidden"></div>
+					</div>
+					<button class="layui-btn" id="calculate" type="button" onclick="calculateBusiness()">开始计算</button>
+					<button class="layui-btn layui-btn-normal" type="button" onclick="resetForm()">清空重填</button>
+				</form>
+				<div class="result">
+					<h3>计算结果 等额本息</h3>
+					<div>
+						<span class="result-title">月供:</span>
+						<span class="result-num" id="month_supply"></span>
+						<span>元</span>
+					</div>
+					<div>
+						<span class="result-title">总利息:</span>
+						<span class="result-num" id="total_interest"></span>
+						<span>元</span>
+					</div>
+					<div>
+						<span class="result-title">还款期数:</span>
+						<span class="result-num" id="total_month"></span>
+						<span>期</span>
+					</div>
+					<div>
+						<span class="result-title">贷款总额:</span>
+						<span class="result-num" id="total_money"></span>
+						<span>万元</span>
+					</div>
+					<div>
+						<span class="result-title">本息总计:</span>
+						<span class="result-num" id="total_loan"></span>
+						<span>万元</span>
+					</div>
+				</div>
+			</div>
+
+			<!--页脚-->
+			<div class="layui-footer">
+				<!-- 底部固定区域 -->
+				© layui.com - 底部固定区域
+			</div>
+		</div>
+		<script src="js/jquery-1.11.3-min.js"></script>
+		<script src="js/layui.js"></script>
+		<script src="js/common.js"></script>
+		<script src="js/frog/businessLoan.js"></script>
+
+	</body>
+
+</html>
