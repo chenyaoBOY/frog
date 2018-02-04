@@ -12,17 +12,20 @@ public class FrogCalcultorController {
     @RequestMapping("index.do")
     public String index(ModelMap map){
 
-        map.put("user","chenyao");
 
         return "/firstPay";
     }
-    @RequestMapping("test.do")
-    public String test(ModelMap map){
+    @RequestMapping("businessLoan.do")
+    public String businessLoan(ModelMap map){
 
-
-        map.put("user","chenyao");
 
         return "/businessLoan";
+    }
+    @RequestMapping("foundLoan.do")
+    public String foundLoan(ModelMap map){
+
+
+        return "/foundLoan";
     }
 
 }

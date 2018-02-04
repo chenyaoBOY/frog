@@ -1,23 +1,9 @@
+//***************************layui核心********************************************************
+//侧边栏 滑动效果
+layui.use('element', function() {
+    var element = layui.element;
 
-//商业贷款
-function showBusinessPage() {
-}
-//公积金贷款
-function showFoundPage() {
-    var foundHtml = "";
-    $('.layui-body').html(foundHtml);
-    var foundHtml = "";
-    $('.layui-body').html(foundHtml);
-
-}
-//组合贷
-function showGroupPage() {
-
-}
-
-
-
-
+});
 
 //*************************************************************************************************
 /*浮点数加减乘除*/

@@ -115,7 +115,7 @@
                 <version>2.2</version>
                 <configuration>
                     <server>tomcat7</server>
-                    <path>/frog.front</path>
+                    <path>/frog</path>
                     <uriEncoding>utf-8</uriEncoding>
                     <port>8083</port>
                 </configuration>

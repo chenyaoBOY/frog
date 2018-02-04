@@ -1,0 +1,59 @@
+.layui-form-item .layui-input-inline{
+    width: 255px;
+    border: 1px solid #e6e6e6;
+    border-radius: 0 2px 2px 0;
+}
+.layui-input-inline .layui-form-mid{
+    position: absolute;
+    right: 10px;
+    top: 0px;
+}
+.layui-input-inline input{
+    border: none;
+    border-left: 1px solid #e6e6e6;
+    height:36px ;
+}
+.result{
+    margin-left: 700px;
+    box-sizing: border-box;
+    padding: 20px 0px 0px 30px;
+}
+.result div{
+    width: 50%;
+    border:1px solid #e6e6e6 ;
+}
+
+.result div{
+    line-height: 30px;
+}
+.result div span{
+    display: inline-block;
+    margin-right: 20px;
+    line-height: 30px;
+    font-size: 16px;
+    font-weight: 700;
+}
+.result-title{
+    width: 85px;
+    text-align: right;
+}
+.result h3{
+    margin-left: 113px;
+}
+.result-num{
+    width: 100px;
+    color: #FD482C;
+}
+.business {
+    margin-left: 110px;
+    margin-top: 30px;
+}
+.layui-table{
+    width: 55%;
+}
+.layui-table thead tr th {
+    text-align: right;
+}
+.layui-table tbody{
+    text-align: right;
+}

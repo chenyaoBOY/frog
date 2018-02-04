@@ -5,7 +5,8 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<title>青蛙数据</title>
-		<link rel="stylesheet" href="css/layui.css">
+		<link rel="stylesheet" type="text/css" href="css/layui.css">
+		<link rel="stylesheet" href="css/frog/firstPay.css">
 	</head>
 
 	<body class="layui-layout-body">
@@ -71,7 +72,7 @@
 							<a class="" href="javascript:;">算首付</a>
 							<dl class="layui-nav-child">
 								<dd class="layui-this">
-									<a href="http://39.107.93.94:8080/frog/index.do">算首付</a>
+									<a href="http://localhost:8083/frog/index.do">算首付</a>
 								</dd>
 							</dl>
 							<dl class="layui-nav-child">
@@ -97,10 +98,10 @@
 							<a href="javascript:;">算贷款</a>
 							<dl class="layui-nav-child">
 								<dd>
-									<a href="http://39.107.93.94:8080/frog/test.do">商业贷款</a>
+									<a href="http://localhost:8083/frog/businessLoan.do">商业贷款</a>
 								</dd>
 								<dd>
-									<a href="javascript:;">公积金贷款</a>
+									<a href="http://localhost:8083/frog/foundLoan.do">公积金贷款</a>
 								</dd>
 								<dd>
 									<a href="">组合贷款</a>
@@ -119,61 +120,183 @@
 
 			<!--主体-->
 			<div class="layui-body">
+				<input type="hidden" id="whether_five_only" value="0">
+				<input type="hidden" id="original_value" value="1">
+				<input type="hidden" id="whether_two" value="0">
+				<input type="hidden" id="customer" value="1">
+				<input type="hidden" id="houseArea" value="0">
 				<!-- 内容主体区域 -->
 				<div style="padding: 15px;">首付计算</div>
+				<blockquote style="margin-left: 40px" class="layui-elem-quote">购买普通商品房需要缴纳税费，包括契税、个税、增值税，特殊性质的房产还可能涉及土地出让金、综合地价款等费用哦!</blockquote>
 				<div class="layui-tab" style="margin-left: 40px;">
 						<ul class="layui-tab-title">
 							<li class="layui-this">商品房</li>
-							<li>商住两用</li>
 							<li>一类经适房</li>
 							<li>二类经适房</li>
 							<li>公房</li>
+							<li>商住两用</li>
 						</ul>
 						<div class="layui-tab-content ">
+							<!--//商品房-->
 							<div class="layui-tab-item layui-show">
-								<form class="layui-form">
-									<div>
 
-										<div class="layui-form-item">
-											<!--占一行-->
-											<label class="layui-form-label">房屋总价：</label>
-											<div class="layui-input-inline">
-												<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
-											</div>
+								<form class="layui-form layui-form-pane" id="businessForm" style="margin-left: 90px;float: left">
+									<div class="layui-form-item" style="margin-top: 50px">
+										<label class="layui-form-label">房屋售价</label>
+										<div class="layui-input-inline">
+											<input type="text" onblur="checkNumber(this,'totalMoney_tip')" lay-filter="totalMoney" id="totalMoney" name="totalMoney" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+											<div class="layui-form-mid layui-word-aux">单位：万元</div>
 										</div>
-
-										<div class="layui-inline">
-											<!--占半行-->
-											<label class="layui-form-label">验证手机：</label>
-											<div class="layui-input-inline">
-												<input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
-											</div>
+										<div class="layui-form-mid layui-word-aux in_tip"  id="totalMoney_tip" hidden="hidden"></div>
+									</div>
+									<div class="layui-form-item" >
+										<label class="layui-form-label">网签价预估</label>
+										<div class="layui-input-inline">
+											<input type="text" onblur="checkNumber(this,'webPricePredict_tip')" lay-filter="totalMoney" id="webPricePredict" name="totalMoney" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+											<div class="layui-form-mid layui-word-aux">单位：万元</div>
 										</div>
-
-										<div class="layui-form-item">
-											<label class="layui-form-label">开关-默认关</label>
-											<div class="layui-input-block">
-												<input type="checkbox" name="close" lay-skin="switch" lay-text="小|大">
-												<div class="layui-unselect layui-form-switch" lay-skin="_switch"><em>OFF</em><i></i></div>
-											</div>
+										<div class="layui-form-mid layui-word-aux in_tip"  id="webPricePredict_tip" hidden="hidden"></div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">满五唯一</label>
+										<div class="layui-input-block" >
+											<input type="checkbox" lay-filter="a1" id="a1"   title="不满五唯一" checked>
+											<input type="checkbox" lay-filter="a2" id="a2"   title="满五唯一">
 										</div>
-
-										<div class="layui-form-item">
-										<label class="layui-form-label">单选框</label>
+									</div>
+									<div class="layui-form-item five original">
+										<label class="layui-form-label">是否有原值</label>
 										<div class="layui-input-block">
-										  <input type="radio" name="sex" value="男" title="男" checked=""><div class="layui-unselect layui-form-radio layui-form-radioed"><i class="layui-anim layui-icon layui-anim-scaleSpring"></i><div>男</div></div>
-										  <input type="radio" name="sex" value="女" title="女"><div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><div>女</div></div>
-										  <input type="radio" name="sex" value="禁" title="禁用" disabled=""><div class="layui-unselect layui-form-radio layui-radio-disbaled layui-disabled"><i class="layui-anim layui-icon"></i><div>禁用</div></div>
+											<input type="checkbox" lay-filter="b1" id="b1"   title="有" checked>
+											<input type="checkbox" lay-filter="b2" id="b2"  title="无"  >
 										</div>
-									  </div>
+									</div>
+									<div class="layui-form-item original" id="originalValueDiv">
+										<label class="layui-form-label">原值</label>
+										<div class="layui-input-inline">
+											<input type="text" onblur="checkNumber(this,'originalValue_tip')" lay-filter="originalValue" id="originalValue" name="totalMoney" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+											<div class="layui-form-mid layui-word-aux">单位：万元</div>
+										</div>
+										<div class="layui-form-mid layui-word-aux in_tip"  id="originalValue_tip" hidden="hidden"></div>
+									</div>
+									<div class="layui-form-item five two">
+										<label class="layui-form-label">是否满两年</label>
+										<div class="layui-input-block">
+											<input type="checkbox" lay-filter="c1" id="c1" title="不满两年" checked>
+											<input type="checkbox" lay-filter="c2" id="c2"  title="满两年" >
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">客户资质</label>
+										<div class="layui-input-block">
+											<input type="checkbox" lay-filter="d1" id="d1" title="首套购房" checked>
+											<input type="checkbox" lay-filter="d2" id="d2" title="非首套" >
+										</div>
+									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">房屋面积</label>
+										<div class="layui-input-inline" >
+											<select name="selectRate"  lay-filter="selectArea" lay-filter="aihao" id="selectRate" >
+												<option value="0" selected > 面积 ≤ 90平 </option>
+												<option value="1"> 90平 < 面积 ≤ 140平 </option>
+												<option value="2"> 140平 < 面积 </option>
+											</select>
+										</div>
+										<div class="layui-form-mid layui-word-aux in_tip" id="selectRate_tip" hidden="hidden"></div>
 
 									</div>
+									<div class="layui-form-item">
+										<label class="layui-form-label">佣金百分比</label>
+										<div class="layui-input-inline">
+											<input type="text" onblur="checkNumber(this,'proxy_fee_tip','1')" lay-filter="totalMoney" id="proxy_fee" name="totalMoney" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+											<div class="layui-form-mid layui-word-aux">百分比%</div>
+										</div>
+										<div class="layui-form-mid layui-word-aux in_tip"  id="proxy_fee_tip" hidden="hidden"></div>
+									</div>
+									<button class="layui-btn business" id="calculate" type="button" onclick="calculateBusiness()">开始计算</button>
+									<button class="layui-btn layui-btn-normal business" type="button" onclick="resetForm()">清空重填</button>
 								</form>
+								<div class="result">
+
+									<h3>税费统计</h3>
+									<table class="layui-table layui-anim layui-anim-scale"  lay-even lay-skin="row">
+										<colgroup>
+											<col width="150">
+											<col width="200">
+										</colgroup>
+										<thead>
+										<tr>
+											<th>契税</th>
+											<th id="qishui">0</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<td>个税</td>
+											<td id="geshui">0</td>
+										</tr>
+										<tr>
+											<td>增值税</td>
+											<td id="zzs">0</td>
+										</tr>
+
+										<tr>
+											<td>税费小计</td>
+											<td id="total_fee">0</td>
+										</tr>
+										<tr>
+											<td>佣金</td>
+											<td id="proxy_price">0</td>
+										</tr>
+										<tr>
+											<td>房屋售价</td>
+											<td id="total_money">0</td>
+										</tr>
+
+										<tr>
+											<td>总房款</td>
+											<td id="total_price">0</td>
+										</tr>
+										</tbody>
+									</table>
+									<h3>首付预估(商贷25年)</h3>
+									<table class="layui-table layui-anim layui-anim-scale"  lay-even lay-skin="row">
+										<colgroup>
+											<col width="150">
+											<col width="200">
+										</colgroup>
+										<thead>
+										<tr>
+											<th>最大贷款额</th>
+											<th id="max_loan">0</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<td>等额本息还款</td>
+											<td id="every_month_pay">0</td>
+										</tr>
+										<tr>
+											<td>等额本金还款</td>
+											<td id="every_month_pay2">0</td>
+										</tr>
+										<tr>
+											<td>还款期数</td>
+											<td id="count_pay">0</td>
+										</tr>
+										<tr>
+											<td>首付</td>
+											<td id="first_pay">0</td>
+										</tr>
+										</tbody>
+									</table>
+
+									<button style="width: 55%" class="layui-btn layui-btn-fluid">更多贷款方案</button>
+								</div>
+
 							</div>
-							<div class="layui-tab-item">内容2</div>
-							<div class="layui-tab-item">内容3</div>
-							<div class="layui-tab-item">内容4</div>
-							<div class="layui-tab-item">内容5</div>
+
+
 						</div>
 					</div>
 
@@ -185,63 +308,10 @@
 				© layui.com - 底部固定区域
 			</div>
 		</div>
+		<script src="js/jquery-1.11.3-min.js"></script>
 		<script src="js/layui.js"></script>
 		<script src="js/common.js"></script>
-		<script>
-			//JavaScript代码区域
-			layui.use('element', function() {
-				var element = layui.element;
-
-			});
-		</script>
-		<script type="text/javascript">
-			layui.use(['form', 'layedit', 'laydate'], function() {
-				var form = layui.form,
-					layer = layui.layer,
-					layedit = layui.layedit,
-					laydate = layui.laydate;
-
-				//日期
-				laydate.render({
-					elem: '#date'
-				});
-				laydate.render({
-					elem: '#date1'
-				});
-
-				//创建一个编辑器
-				var editIndex = layedit.build('LAY_demo_editor');
-
-				//自定义验证规则
-				form.verify({
-					title: function(value) {
-						if(value.length < 5) {
-							return '标题至少得5个字符啊';
-						}
-					},
-					pass: [/(.+){6,12}$/, '密码必须6到12位'],
-					content: function(value) {
-						layedit.sync(editIndex);
-					}
-				});
-				//监听指定开关
-				form.on('switch(switchTest)', function(data) {
-					layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
-						offset: '6px'
-					});
-					layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
-				});
-
-				//监听提交
-				form.on('submit(demo1)', function(data) {
-					layer.alert(JSON.stringify(data.field), {
-						title: '最终的提交信息'
-					})
-					return false;
-				});
-
-			});
-		</script>
+		<script src="js/frog/firstPay.js"></script>
 	</body>
 
 </html>
