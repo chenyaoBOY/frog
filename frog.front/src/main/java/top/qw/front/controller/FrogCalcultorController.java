@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class FrogCalcultorController {
-
     @RequestMapping("/tax.do")
     public String tax(ModelMap map,@RequestParam(value = "type",defaultValue = "0") Integer type){
         if(type == 0){//商品房
@@ -22,9 +21,8 @@ public class FrogCalcultorController {
         }else if(type == 4){//商住两用房
             return "/business_live_house";
         }else{
-            return "/error";
+            return "/error_page";
         }
-
     }
     @RequestMapping("businessLoan.do")
     public String businessLoan(ModelMap map){
