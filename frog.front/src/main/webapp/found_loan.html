@@ -136,118 +136,120 @@
 			<!--主体-->
 			<div class="layui-body" >
 				<!-- 内容主体区域 -->
-				<div style="padding: 15px;">商业贷款计算</div>
+				<h1 style="margin-left: 528px;margin-top: 300px;">功能暂未开放！</h1>
 
-				<div class="layui-collapse" lay-accordion="" style="margin-left: 30px;">
-				  <div class="layui-colla-item">
-					<h2 class="layui-colla-title">怎么计算的呢？<i class="layui-icon layui-colla-icon"></i></h2>
-					<div class="layui-colla-content layui-show">
-						计算原则：银行从每月月供款中，先收剩余本金利息，后收本金；利息在月供款中的比例中随剩余本金的减少而降低，本金在月供款中的比例因增加而升高，但月供总额保持不变。
-						<br>计算公式：等额本息贷款买房时，每月还款额计算公式为：
-						[贷款本金×月利率×（1+月利率）^还款月数]÷[（1+月利率）^还款月数－1]
-					</div>
+				<!--<div style="padding: 15px;">商业贷款计算</div>-->
 
-				  </div>
-				</div>
+				<!--<div class="layui-collapse" lay-accordion="" style="margin-left: 30px;">-->
+				  <!--<div class="layui-colla-item">-->
+					<!--<h2 class="layui-colla-title">怎么计算的呢？<i class="layui-icon layui-colla-icon"></i></h2>-->
+					<!--<div class="layui-colla-content layui-show">-->
+						<!--计算原则：银行从每月月供款中，先收剩余本金利息，后收本金；利息在月供款中的比例中随剩余本金的减少而降低，本金在月供款中的比例因增加而升高，但月供总额保持不变。-->
+						<!--<br>计算公式：等额本息贷款买房时，每月还款额计算公式为：-->
+						<!--[贷款本金×月利率×（1+月利率）^还款月数]÷[（1+月利率）^还款月数－1]-->
+					<!--</div>-->
+
+				  <!--</div>-->
+				<!--</div>-->
 
 
-				<form class="layui-form layui-form-pane" id="businessForm" style="margin-left: 90px;float: left">
-					<div class="layui-form-item" style="margin-top: 50px">
-						<label class="layui-form-label">贷款总额</label>
-						<div class="layui-input-inline">
-							<input type="text" onblur="checkNumber('0')" lay-filter="totalMoney" id="totalMoney" name="totalMoney" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-							<div class="layui-form-mid layui-word-aux">单位：万元</div>
-						</div>
-						<div class="layui-form-mid layui-word-aux in_tip"  id="totalMoney_tip" hidden="hidden"></div>
-					</div>
-					<div class="layui-form-item">
-						<label class="layui-form-label">贷款利率</label>
-						<div class="layui-input-inline">
-							<select name="selectRate"  lay-filter="selectRate" lay-filter="aihao" id="selectRate" >
-								<option value="3.25" selected >首套利率 3.25%</option>
-								<option value="3.575">二套利率 3.575%</option>
-							</select>
-							<input type="hidden" id="" value="3.25">
-						</div>
-						<div class="layui-form-mid layui-word-aux in_tip" id="selectRate_tip" hidden="hidden"></div>
+				<!--<form class="layui-form layui-form-pane" id="businessForm" style="margin-left: 90px;float: left">-->
+					<!--<div class="layui-form-item" style="margin-top: 50px">-->
+						<!--<label class="layui-form-label">贷款总额</label>-->
+						<!--<div class="layui-input-inline">-->
+							<!--<input type="text" onblur="checkNumber('0')" lay-filter="totalMoney" id="totalMoney" name="totalMoney" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">-->
+							<!--<div class="layui-form-mid layui-word-aux">单位：万元</div>-->
+						<!--</div>-->
+						<!--<div class="layui-form-mid layui-word-aux in_tip"  id="totalMoney_tip" hidden="hidden"></div>-->
+					<!--</div>-->
+					<!--<div class="layui-form-item">-->
+						<!--<label class="layui-form-label">贷款利率</label>-->
+						<!--<div class="layui-input-inline">-->
+							<!--<select name="selectRate"  lay-filter="selectRate" lay-filter="aihao" id="selectRate" >-->
+								<!--<option value="3.25" selected >首套利率 3.25%</option>-->
+								<!--<option value="3.575">二套利率 3.575%</option>-->
+							<!--</select>-->
+							<!--<input type="hidden" id="" value="3.25">-->
+						<!--</div>-->
+						<!--<div class="layui-form-mid layui-word-aux in_tip" id="selectRate_tip" hidden="hidden"></div>-->
 
-					</div>
-					<div class="layui-form-item" >
-						<label class="layui-form-label">贷款年数</label>
-						<div class="layui-input-inline">
-							<input type="text" lay-filter='loanYear' onblur="checkNumber('2')" id="loanYear" value="25" name="loanYear" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-							<div class="layui-form-mid layui-word-aux">年</div>
-						</div>
-						<div class="layui-form-mid layui-word-aux in_tip" id="loanYear_tip" hidden="hidden"></div>
-					</div>
-					<button class="layui-btn business" id="calculate" type="button" onclick="calculateBusiness()">开始计算</button>
-					<button class="layui-btn layui-btn-normal business" type="button" onclick="resetForm()">清空重填</button>
-				</form>
-				<div class="result">
-					<h3>等额本息</h3>
-					<table class="layui-table layui-anim layui-anim-scale"  lay-even lay-skin="row">
-						<colgroup>
-							<col width="150">
-							<col width="200">
-						</colgroup>
-						<thead>
-						<tr>
-							<th>月供</th>
-							<th id="month_supply">0</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td>总利息</td>
-							<td id="total_interest">0</td>
-						</tr>
-						<tr>
-							<td>还款期数</td>
-							<td id="total_month">0</td>
-						</tr>
-						<tr>
-							<td>贷款总额</td>
-							<td id="total_money">0</td>
-						</tr>
-						<tr>
-							<td>本息总计</td>
-							<td id="total_loan">0</td>
-						</tr>
-						</tbody>
-					</table>
-					<h3>等额本金</h3>
-					<table class="layui-table layui-anim layui-anim-scale"  lay-even lay-skin="row">
-						<colgroup>
-							<col width="150">
-							<col width="200">
-						</colgroup>
-						<thead>
-						<tr>
-							<th>月供</th>
-							<th id="month_supply1">0</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td>总利息</td>
-							<td id="total_interest1">0</td>
-						</tr>
-						<tr>
-							<td>还款期数</td>
-							<td id="total_month1">0</td>
-						</tr>
-						<tr>
-							<td>贷款总额</td>
-							<td id="total_money1">0</td>
-						</tr>
-						<tr>
-							<td>本息总计</td>
-							<td id="total_loan1">0</td>
-						</tr>
-						</tbody>
-					</table>
+					<!--</div>-->
+					<!--<div class="layui-form-item" >-->
+						<!--<label class="layui-form-label">贷款年数</label>-->
+						<!--<div class="layui-input-inline">-->
+							<!--<input type="text" lay-filter='loanYear' onblur="checkNumber('2')" id="loanYear" value="25" name="loanYear" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">-->
+							<!--<div class="layui-form-mid layui-word-aux">年</div>-->
+						<!--</div>-->
+						<!--<div class="layui-form-mid layui-word-aux in_tip" id="loanYear_tip" hidden="hidden"></div>-->
+					<!--</div>-->
+					<!--<button class="layui-btn business" id="calculate" type="button" onclick="calculateBusiness()">开始计算</button>-->
+					<!--<button class="layui-btn layui-btn-normal business" type="button" onclick="resetForm()">清空重填</button>-->
+				<!--</form>-->
+				<!--<div class="result">-->
+					<!--<h3>等额本息</h3>-->
+					<!--<table class="layui-table layui-anim layui-anim-scale"  lay-even lay-skin="row">-->
+						<!--<colgroup>-->
+							<!--<col width="150">-->
+							<!--<col width="200">-->
+						<!--</colgroup>-->
+						<!--<thead>-->
+						<!--<tr>-->
+							<!--<th>月供</th>-->
+							<!--<th id="month_supply">0</th>-->
+						<!--</tr>-->
+						<!--</thead>-->
+						<!--<tbody>-->
+						<!--<tr>-->
+							<!--<td>总利息</td>-->
+							<!--<td id="total_interest">0</td>-->
+						<!--</tr>-->
+						<!--<tr>-->
+							<!--<td>还款期数</td>-->
+							<!--<td id="total_month">0</td>-->
+						<!--</tr>-->
+						<!--<tr>-->
+							<!--<td>贷款总额</td>-->
+							<!--<td id="total_money">0</td>-->
+						<!--</tr>-->
+						<!--<tr>-->
+							<!--<td>本息总计</td>-->
+							<!--<td id="total_loan">0</td>-->
+						<!--</tr>-->
+						<!--</tbody>-->
+					<!--</table>-->
+					<!--<h3>等额本金</h3>-->
+					<!--<table class="layui-table layui-anim layui-anim-scale"  lay-even lay-skin="row">-->
+						<!--<colgroup>-->
+							<!--<col width="150">-->
+							<!--<col width="200">-->
+						<!--</colgroup>-->
+						<!--<thead>-->
+						<!--<tr>-->
+							<!--<th>月供</th>-->
+							<!--<th id="month_supply1">0</th>-->
+						<!--</tr>-->
+						<!--</thead>-->
+						<!--<tbody>-->
+						<!--<tr>-->
+							<!--<td>总利息</td>-->
+							<!--<td id="total_interest1">0</td>-->
+						<!--</tr>-->
+						<!--<tr>-->
+							<!--<td>还款期数</td>-->
+							<!--<td id="total_month1">0</td>-->
+						<!--</tr>-->
+						<!--<tr>-->
+							<!--<td>贷款总额</td>-->
+							<!--<td id="total_money1">0</td>-->
+						<!--</tr>-->
+						<!--<tr>-->
+							<!--<td>本息总计</td>-->
+							<!--<td id="total_loan1">0</td>-->
+						<!--</tr>-->
+						<!--</tbody>-->
+					<!--</table>-->
 
-				</div>
+				<!--</div>-->
 
 
 			</div>
