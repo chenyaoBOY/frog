@@ -13,6 +13,7 @@
         <module>frog.common</module>
         <module>frog.backstage</module>
         <module>frog.calculator</module>
+        <module>frog.core</module>
     </modules>
 
     <properties>
@@ -31,7 +32,8 @@
         <commons-io.version>2.5</commons-io.version>
         <commons-codec.version>1.10</commons-codec.version>
         <aspectjweaver.version>1.8.10</aspectjweaver.version>
-        <freemarker.version>2.3.20</freemarker.version>
+        <freemarker.version>2.3.23</freemarker.version>
+        <commons-lang3.version>3.1</commons-lang3.version>
     </properties>
 
     <dependencyManagement>
@@ -154,6 +156,12 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
             <!-- json和bean之间相互转换 -->
             <dependency>

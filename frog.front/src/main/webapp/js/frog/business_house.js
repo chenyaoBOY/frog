@@ -1,17 +1,21 @@
 
 
-var b0=true,b1=true,b2=true;
+var b0=false,b1=true,b2=true;
 $(function () {
     $('.in_tip').hide();
     // $('#originalValueDiv').hide();
 })
 //计算商品房费用
 var qishui,geshui,zzs,allFee,totalPrice,proxy_price,total_fee,max_loan,first_pay,every_month_pay,dif,firstMoth;
-function calculateBusiness() {
+var djk_val=0;
+var crj_val=0;
 
+function calculateBusiness() {
     if(!b0){
-        alert("请完善数据！")
+        alert("请完善数据！");
+        return;
     }
+
     totalPrice = $('#totalMoney').val();//房屋售价
     var webPrice = $('#webPricePredict').val();//网签价
     var proxyFeePercent = div($('#proxy_fee').val(),100);//代理费百分比
@@ -20,11 +24,11 @@ function calculateBusiness() {
         originalValue =0;
     }
 
-    var onlyFlag = $('#whether_five_only').val();//是否满五唯一  0：否 1 是
-    var originalFlag = $('#original_value').val();//是否有原值  0：否 1 有
-    var twoFlag = $('#whether_two').val();//是否满两年  0：否 1 有
-    var customerFlag = $('#customer').val();//是否首套  0：否 1 有
-    var areaFlag = $('#houseArea').val();//是否大于90平  0：否 1 是
+    var onlyFlag = $('#house_status_value').val();//0:不满五唯一  1：满五唯一  2：不满五且不唯一
+    // var originalFlag = $('#original_value').val();//是否有原值  0：否 1 有
+    // var twoFlag = $('#whether_two').val();//是否满两年  0：否 1 有
+    // var customerFlag = $('#customer').val();//是否首套  0：否 1 有
+    // var areaFlag = $('#houseArea').val();//是否大于90平  0：否 1 是
 
 
 
@@ -34,34 +38,46 @@ function calculateBusiness() {
     }else{
         bumanwuweiyi(webPrice,originalValue);
     }
+
     allFee = add(add(add(qishui,geshui),zzs),totalPrice);
     total_fee = sub(allFee,totalPrice);
+
+    if($('#djk_val').val() == 0){//一类经适房
+        djk_val = mul(sub(webPrice,originalValue),0.7)
+        allFee=add(allFee,djk_val);
+        total_fee =add(total_fee,djk_val);
+    }
+    if($('#crj_val').val() == 0){//二类经适房
+        crj_val = mul(webPrice,0.3);
+        allFee=add(allFee,crj_val);
+        total_fee=add(total_fee,crj_val);
+    }
+
     if(proxyFeePercent != ''){
         proxy_price = mul(totalPrice,proxyFeePercent);
         allFee = add(allFee,proxy_price);
     }
-    max_loan =Number(number_format(mul(mul(totalPrice,0.9),0.65),'0','','','floor'));
+    if($("#customer").val() == 1){
+        max_loan =Number(number_format(mul(mul(totalPrice,0.9),0.65),'0','','','floor'));
+    }else{
+        max_loan =Number(number_format(mul(mul(totalPrice,0.9),0.4),'0','','','floor'));
+    }
+
     first_pay = sub(allFee,max_loan);
     var data = (max_loan * 0.004083 * Math.pow( (1+0.004083),300) ) / ( Math.pow( (1+0.004083),300 ) -1)*10000;
     every_month_pay =data;
 
     //首月还本付息金额=（本金/还款月数）+本金×月利率
-    firstMoth = add(div(totalPrice,300),mul(totalPrice,0.004083));
+    firstMoth = add(div(max_loan,300),mul(max_loan,0.004083));
     //每月还本付息金额=（本金/还款月数）+（本金-累计已还本金）×月利率
-    var secondMoth = add(div(totalPrice,300),mul(sub(totalPrice,div(totalPrice,300)),0.004083));
+    var secondMoth = add(div(max_loan,300),mul(sub(max_loan,div(max_loan,300)),0.004083));
     dif = (firstMoth-secondMoth)*10000;
 
     showFees();
 
 }
 function bumanwuweiyi(webPrice,originalValue) {
-    //个税计算
-    if($('#original_value').val() == 0){//找不到原值
-        geshui = mul(webPrice,0.01)
-    }else{
-        //个税=（网签价-原值）*0.2
-        geshui = mul(sub(webPrice,originalValue),0.2);
-    }
+
     //增值税计算
     if($('#whether_two').val() == 1){//满两年
         zzs=0;
@@ -76,12 +92,21 @@ function bumanwuweiyi(webPrice,originalValue) {
 
     //契税计算
     if($('#customer').val() == 1){//首套
-        if($('#houseArea').val() == 1){//大于90平
+        if($('#houseArea').val() == 1 || $('#houseArea').val() == 2){//大于90平
             qishui = mul(sub(webPrice,zzs),0.015);
         }else{
             qishui = mul(sub(webPrice,zzs),0.01);
         }
+    }else{
         qishui = mul(sub(webPrice,zzs),0.03);
+    }
+    //个税计算
+    if($('#house_status_value').val() == 0){//不满五唯一
+        //个税=（网签价-原值）*0.2
+        geshui = mul(sub(webPrice,originalValue),0.2);
+    }else if($('#house_status_value').val() == 2){//不满五且不唯一
+        //个税 =（网签-原值-网签10%-增值税）*20%
+        geshui = mul(sub(sub(mul(webPrice,0.9),originalValue),zzs),0.2);
     }
 
 }
@@ -95,10 +120,10 @@ function manwuweiyi(webPrice,originalValue) {
     }
     //判断客户是否首套购房
     if($("#customer").val()==1){//首套
-        if($('#houseArea').val() == 1){//大于90平
+        if($('#houseArea').val() == 1 || $('#houseArea').val() == 2){//大于90平小于140
             //契税 = （网签价 - 增值税）*1.5%
             qishui = mul(sub(webPrice,zzs),0.015);
-        }else{
+        }else if($('#houseArea').val() == 0){//小于90
             //契税 = （网签价 - 增值税）*1%
             qishui = mul(sub(webPrice,zzs),0.01);
         }
@@ -110,18 +135,29 @@ function manwuweiyi(webPrice,originalValue) {
 
 
 function showFees() {
-    $('#geshui').text(number_format(geshui,2,'.',',','round')+"   万元");
-    $('#qishui').text(number_format(qishui,2,'.',',','round')+"   万元");
-    $('#zzs').text(number_format(zzs,2,'.',',','round')+"   万元");
+    $('#geshui').text(Number(geshui).toFixed(2)+"   万元");
+    $('#qishui').text(Number(qishui).toFixed(2)+"   万元");
+    $('#zzs').text(Number(zzs).toFixed(2)+"   万元");
     $('#total_money').text(Number(totalPrice).toFixed(2)+"   万元");
     $('#total_price').text(number_format(allFee,2,'.',',','round')+"   万元");
     $('#proxy_price').text(number_format(proxy_price,2,'.',',','round')+"   万元");
-    $('#total_fee').text(number_format(total_fee,2,'.',',','round')+"   万元");
+    $('#total_fee').text(Number(total_fee).toFixed(2)+"   万元");
     $('#max_loan').text(number_format(max_loan,2,'.',',','round')+"   万元");
     $('#first_pay').text(number_format(first_pay,2,'.',',','round')+"   万元");
     $('#every_month_pay').text(number_format(every_month_pay,2,'.',',','round')+"   元/月");
     $('#every_month_pay2').text(number_format(mul(firstMoth,10000),2,'.',',','round')+"   元/月"+'每月递减'+Number(dif).toFixed(2));
     $('#count_pay').text("300 期");
+
+    if($('#djk_val').val() == 0){
+        $('#zhdjk').text(Number(djk_val).toFixed(2)+"   万元");
+
+    }
+    if($('#crj_val').val() == 0){
+        $('#tdcrj').text(Number(crj_val).toFixed(2)+"   万元");
+
+    }
+
+
 }
 function checkNumber(ele,p,p2) {
     var reg = /^\d+(\.\d+)?$/;
@@ -171,37 +207,65 @@ function tip(p,txt) {
 
     layui.use('form', function() {
         var form = layui.form;
-        //不满五唯一 a1-0  满五唯一 a2-1
-        form.on('checkbox(a1)', function(data){//不满五
-            setCheckBox(data,'a2',0,1,'whether_five_only',form);
-            if(data.elem.checked){
-                $('.five').show();
-            }else{
-                $('.five').hide();
-            }
-            if($("#original_value").val() == 1){
-                $('#originalValueDiv').show();
-            }else{
-                $('#originalValueDiv').hide();
-            }
 
-        });
-        form.on('checkbox(a2)', function(data){//满五
-            setCheckBox(data,'a1',1,0,'whether_five_only',form);
-            if($("#houseArea").val() == 2){
+        form.on('select(house_status)', function(data){//房屋面积
+            $('#house_status_value').val(data.value);
+            if(data.value == 0){//不满五唯一
                 $('.original').show();
-                $('.two').hide();
-            }else{
-                if(data.elem.checked){
-                    $('.five').hide();
+                if($("#original_value").val() == 0){//原值
                     $('#originalValueDiv').hide();
-                }else{
-                    $('.five').show();
-                    $('#originalValueDiv').show();
                 }
+                $('.two').show();
+            }else if(data.value == 1){//满五唯一
+                if($("#houseArea").val() == 2){
+                    $('.original').show();
+                    $('.two').hide();
+                    if($("#original_value").val() == 0){//原值
+                        $('#originalValueDiv').hide();
+                    }
+                }else{
+                    $('.original').hide();
+                    $('.two').hide();
+                }
+            }else{//不满五且不唯一
+                $('.original').show();
+                if($("#original_value").val() == 0){//原值
+                    $('#originalValueDiv').hide();
+                }
+                $('.two').show();
             }
-
         });
+        // //不满五唯一 a1-0  满五唯一 a2-1
+        // form.on('checkbox(a1)', function(data){//不满五
+        //     setCheckBox(data,'a2',0,1,'house_status_value',form);
+        //     if(data.elem.checked){
+        //         $('.five').show();
+        //     }else{
+        //         $('.five').hide();
+        //     }
+        //     if($("#original_value").val() == 1){
+        //         $('#originalValueDiv').show();
+        //     }else{
+        //         $('#originalValueDiv').hide();
+        //     }
+        //
+        // });
+        // form.on('checkbox(a2)', function(data){//满五
+        //     setCheckBox(data,'a1',1,0,'house_status_value',form);
+        //     if($("#houseArea").val() == 2){
+        //         $('.original').show();
+        //         $('.two').hide();
+        //     }else{
+        //         if(data.elem.checked){
+        //             $('.five').hide();
+        //             $('#originalValueDiv').hide();
+        //         }else{
+        //             $('.five').show();
+        //             $('#originalValueDiv').show();
+        //         }
+        //     }
+        //
+        // });
         //有原值 b1 1 b2 0
         form.on('checkbox(b1)', function(data){//有原值
             setCheckBox(data,'b2',1,0,'original_value',form);
@@ -236,9 +300,12 @@ function tip(p,txt) {
         });
         form.on('select(selectArea)', function(data){//房屋面积
             $('#houseArea').val(data.value);
-            if($("#whether_five_only").val() == 1){
+            if($("#house_status_value").val() == 1){
                 if(data.value == 2){
                     $(".original").show();
+                    if($("#original_value").val() == 0){//原值
+                        $('#originalValueDiv').hide();
+                    }
                 }else{
                     $(".original").hide();
                 }

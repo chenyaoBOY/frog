@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<title>青蛙数据</title>
 		<link rel="stylesheet" type="text/css" href="css/layui.css">
-		<link rel="stylesheet" type="text/css" href="css/frog/foundLoan.css"/>
+		<link rel="stylesheet" type="text/css" href="css/frog/businessLoan.css"/>
 	</head>
 
 	<body class="layui-layout-body">
@@ -69,15 +69,45 @@
 					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
 					<ul class="layui-nav layui-nav-tree" lay-filter="test">
 						<li class="layui-nav-item layui-nav-itemed">
-							<a class="" href="javascript:;">算首付</a>
+							<a class="" href="javascript:;">算税费</a>
 							<dl class="layui-nav-child">
 								<dd >
-									<a href="http://localhost:8083/frog/index.do">算首付</a>
+									<a href="http://localhost:8083/frog/tax.do">商品房</a>
 								</dd>
 							</dl>
 							<dl class="layui-nav-child">
 								<dd >
-									<a href="javascript:;">费用导出</a>
+									<a href="http://localhost:8083/frog/tax.do?type=1" >一类经适房</a>
+								</dd>
+							</dl>
+							<dl class="layui-nav-child">
+								<dd >
+									<a href="http://localhost:8083/frog/tax.do?type=2">二类经适房</a>
+								</dd>
+							</dl>
+							<dl class="layui-nav-child">
+								<dd >
+									<a href="http://localhost:8083/frog/tax.do?type=3">央产房</a>
+								</dd>
+							</dl>
+							<dl class="layui-nav-child">
+								<dd >
+									<a href="http://localhost:8083/frog/tax.do?type=4">商住两用</a>
+								</dd>
+							</dl>
+						</li>
+
+						<li class="layui-nav-item layui-nav-itemed" >
+							<a href="javascript:;">算贷款</a>
+							<dl class="layui-nav-child">
+								<dd class="layui-this">
+									<a href="http://localhost:8083/frog/businessLoan.do" >商业贷款</a>
+								</dd>
+								<dd>
+									<a href="http://localhost:8083/frog/foundLoan.do" >公积金贷款</a>
+								</dd>
+								<dd>
+									<a href="">组合贷款</a>
 								</dd>
 							</dl>
 						</li>
@@ -94,20 +124,6 @@
 								</dd>
 							</dl>
 						</li>
-						<li class="layui-nav-item layui-nav-itemed" >
-							<a href="javascript:;">算贷款</a>
-							<dl class="layui-nav-child">
-								<dd >
-									<a href="http://localhost:8083/frog/businessLoan.do">商业贷款</a>
-								</dd>
-								<dd class="layui-this">
-									<a href="http://localhost:8083/frog/foundLoan.do">公积金贷款</a>
-								</dd>
-								<dd>
-									<a href="">组合贷款</a>
-								</dd>
-							</dl>
-						</li>
 						<li class="layui-nav-item">
 							<a href="javascript:;">客户列表</a>
 						</li>
@@ -119,7 +135,7 @@
 			</div>
 
 			<!--主体-->
-			<div class="layui-body" >
+			<div class="layui-body">
 				<!-- 内容主体区域 -->
 				<div style="padding: 15px;">商业贷款计算</div>
 
@@ -146,13 +162,24 @@
 						<div class="layui-form-mid layui-word-aux in_tip"  id="totalMoney_tip" hidden="hidden"></div>
 					</div>
 					<div class="layui-form-item">
-						<label class="layui-form-label">贷款利率</label>
-						<div class="layui-input-inline">
+						<label class="layui-form-label">贷款年利率</label>
+						<div class="layui-input-inline" >
+							<input type="text"  onblur="checkNumber('1')" value="4.9" lay-filter='rate' name="rate" id="rate" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+							<div class="layui-form-mid layui-word-aux">%</div>
+						</div>
+
+						<div class="layui-input-inline" style="width: 155px">
 							<select name="selectRate"  lay-filter="selectRate" lay-filter="aihao" id="selectRate" >
-								<option value="3.25" selected >首套利率 3.25%</option>
-								<option value="3.575">二套利率 3.575%</option>
+								<option value="4.9" selected >最新基准利率</option>
+								<option value="5.145">基准利率上浮5%</option>
+								<option value="5.39">基准利率上浮10%</option>
+								<option value="5.635">基准利率上浮15%</option>
+								<option value="5.88">基准利率上浮20%</option>
+								<option value="4.802">基准利率98折</option>
+								<option value="4.655">基准利率95折</option>
+								<option value="4.41">基准利率9折</option>
+								<option value="4.165">基准利率85折</option>
 							</select>
-							<input type="hidden" id="" value="3.25">
 						</div>
 						<div class="layui-form-mid layui-word-aux in_tip" id="selectRate_tip" hidden="hidden"></div>
 
@@ -169,6 +196,7 @@
 					<button class="layui-btn layui-btn-normal business" type="button" onclick="resetForm()">清空重填</button>
 				</form>
 				<div class="result">
+
 					<h3>等额本息</h3>
 					<table class="layui-table layui-anim layui-anim-scale"  lay-even lay-skin="row">
 						<colgroup>
@@ -200,8 +228,11 @@
 						</tr>
 						</tbody>
 					</table>
+
+
+
 					<h3>等额本金</h3>
-					<table class="layui-table layui-anim layui-anim-scale"  lay-even lay-skin="row">
+					<table  class="layui-table layui-anim layui-anim-scale"  lay-even lay-skin="row">
 						<colgroup>
 							<col width="150">
 							<col width="200">
@@ -232,6 +263,8 @@
 						</tbody>
 					</table>
 
+
+
 				</div>
 
 
@@ -246,7 +279,7 @@
 		<script src="js/jquery-1.11.3-min.js"></script>
 		<script src="js/layui.js"></script>
 		<script src="js/common.js"></script>
-		<script src="js/frog/foundLoan.js"></script>
+		<script src="js/frog/business_loan.js"></script>
 
 	</body>
 

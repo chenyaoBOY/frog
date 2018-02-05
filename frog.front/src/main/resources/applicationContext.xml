@@ -16,8 +16,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     </bean>
 
 
-
-    <!--自动注册 DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 两个bean-->
+    <!--主要作用于@Controller激活该模式下面是一种简写形式
+             它会自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter，
+             是spring MVC为@Controllers分发请求所必须的   -->
     <mvc:annotation-driven >
         <!-- 解决@ResponseBody中文乱码 -->
         <mvc:message-converters register-defaults="true">
@@ -28,12 +29,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     </mvc:annotation-driven>
 
 
-    <!--视图适配器-->
+    <!--&lt;!&ndash;视图适配器&ndash;&gt;-->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
-        <!-- <property name="prefix" value="/view/" /> -->
-        <property name="suffix" value=".html" />
-    </bean>
+    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+    <!--<property name="prefix" value="/" />-->
+    <property name="suffix" value=".html" />
+</bean>
 
 
 </beans>

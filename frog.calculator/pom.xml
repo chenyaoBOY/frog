@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>calculator</artifactId>
+    <artifactId>frog.calculator</artifactId>
     <packaging>pom</packaging>
     <modules>
         <module>frog.calculator.api</module>
@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>top.91qw</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>frog.common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- mybatis核心包 -->
