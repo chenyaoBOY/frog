@@ -32,9 +32,9 @@ function calculateBusiness() {
         allFee = add(allFee,proxy_price);
     }
     if($("#customer").val() == 1){
-        max_loan =Number(number_format(mul(mul(totalPrice,0.9),0.65),'0','','','floor'));
+        max_loan =Number(num_format(((mul(mul(totalPrice,0.9),0.65)).toFixed(2)).toString()));
     }else{
-        max_loan =Number(number_format(mul(mul(totalPrice,0.9),0.4),'0','','','floor'));
+        max_loan =Number(num_format(((mul(mul(totalPrice,0.9),0.4)).toFixed(2)).toString()));
     }
 
     first_pay = sub(allFee,max_loan);
@@ -55,13 +55,13 @@ function calculateBusiness() {
 function showFees() {
     $('#qishui').text(Number(qishui).toFixed(2)+"   万元");
     $('#total_money').text(Number(totalPrice).toFixed(2)+"   万元");
-    $('#total_price').text(number_format(allFee,2,'.',',','round')+"   万元");
-    $('#proxy_price').text(number_format(proxy_price,2,'.',',','round')+"   万元");
+    $('#total_price').text(num_format((allFee.toFixed(2)).toString())+"   万元");
+    $('#proxy_price').text(num_format((proxy_price.toFixed(2)).toString())+"   万元");
     $('#total_fee').text(Number(total_fee).toFixed(2)+"   万元");
-    $('#max_loan').text(number_format(max_loan,2,'.',',','round')+"   万元");
-    $('#first_pay').text(number_format(first_pay,2,'.',',','round')+"   万元");
-    $('#every_month_pay').text(number_format(every_month_pay,2,'.',',','round')+"   元/月");
-    $('#every_month_pay2').text(number_format(mul(firstMoth,10000),2,'.',',','round')+"   元/月"+'每月递减'+Number(dif).toFixed(2));
+    $('#max_loan').text(num_format(max_loan.toFixed(2))+"   万元");
+    $('#first_pay').text(num_format(first_pay.toFixed(2))+"   万元");
+    $('#every_month_pay').text(num_format(every_month_pay.toFixed(2))+"   元/月");
+    $('#every_month_pay2').text(num_format((mul(firstMoth,10000)).toFixed(2))+"   元/月"+'每月递减'+Number(dif).toFixed(2));
     $('#count_pay').text("300 期");
 
     $('#tdcrj').text(Number(crj_val).toFixed(2)+"   万元");

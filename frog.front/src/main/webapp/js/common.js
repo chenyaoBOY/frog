@@ -70,49 +70,10 @@ function div(a, b) {
     return c = Number(a.toString().replace(".", "")), d = Number(b.toString().replace(".", "")), mul(c / d, Math.pow(10, f - e));
 }
 
-function number_format(number, decimals, dec_point, thousands_sep, roundtag) {
-    /*
-     * 参数说明：
-     * number：要格式化的数字
-     * decimals：保留几位小数
-     * dec_point：小数点符号
-     * thousands_sep：千分位符号
-     * roundtag:舍入参数，默认 "ceil" 向上取,"floor"向下取,"round" 四舍五入
-     * */
-    number = (number + '').replace(/[^0-9+-Ee.]/g, '');
-    roundtag = roundtag || "ceil"; //"ceil","floor","round"
-    var n = !isFinite(+number) ? 0 : +number,
-        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
-        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
-        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
-        s = '',
-        toFixedFix = function (n, prec) {
-            var s = n.toString();
-            var sArr = s.split(".");
-            var m = 0;
-            try {
-                m += sArr[1].length;
-            }
-            catch (e) {
-            }
 
-            if (prec > m) {
-                return s;
-            } else {
-                sArr[1] = Math[roundtag](Number(sArr[1]) / Math.pow(10, m - prec));
-                return sArr.join('.');
-            }
-        };
-
-    s = (prec ? toFixedFix(n, prec) : '' + Math.floor(n)).split('.');
-    var re = /(-?\d+)(\d{3})/;
-    while (re.test(s[0])) {
-        s[0] = s[0].replace(re, "$1" + sep + "$2");
-    }
-
-    if ((s[1] || '').length < prec) {
-        s[1] = s[1] || '';
-        s[1] += new Array(prec - s[1].length + 1).join('0');
-    }
-    return s.join(dec);
-};
+function num_format(n){
+    n = n.toString();
+    var re=/\d{1,3}(?=(\d{3})+$)/g;
+    var n1=n.replace(/^(\d+)((\.\d+)?)$/,function(s,s1,s2){return s1.replace(re,"$&,")+s2;});
+    return n1;
+}

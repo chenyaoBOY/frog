@@ -26,11 +26,11 @@ function calculateBusiness() {
     var interest = sub(mul(result,month),mul(10000,totalMoney));
 
     //等额本息
-    $('#month_supply').text(number_format(result,2,'.',',','round')+"   元");
-    $('#total_money').text(number_format(totalMoney,2,'.',',','round')+"   万元");
-    $('#total_interest').text(number_format(div(interest,10000),2,'.',',','round')+"   万元");
+    $('#month_supply').text(num_format(result.toFixed(2))+"   元");
+    $('#total_money').text(num_format(totalMoney.toFixed(2))+"   万元");
+    $('#total_interest').text(num_format((div(interest,10000)).toFixed(2))+"   万元");
     $('#total_month').text(month+"   期");
-    $('#total_loan').text(number_format(add(div(interest,10000),totalMoney),2,'.',',','round')+"   万元");
+    $('#total_loan').text(num_format((add(div(interest,10000),totalMoney)).toFixed(2))+"   万元");
 
 
     //等额本金
@@ -41,11 +41,11 @@ function calculateBusiness() {
     var dif = (firstMoth-secondMoth)*10000;
     //还款总利息=（还款月数+1）×贷款额×月利率/2
     var total_interest1 = (month+1)*totalMoney*rateMonth/2;
-    $('#month_supply1').text(number_format(firstMoth*10000,2,'.',',','round')+"   元"+"\n每月递减"+dif.toFixed(2));
-    $('#total_money1').text(number_format(totalMoney,2,'.',',','round')+"   万元");
-    $('#total_interest1').text(number_format(total_interest1,2,'.',',','round')+"   万元");
+    $('#month_supply1').text(num_format((mul(firstMoth,10000)).toFixed(2))+"   元"+"\n每月递减"+dif.toFixed(2));
+    $('#total_money1').text(num_format(totalMoney.toFixed(2))+"   万元");
+    $('#total_interest1').text(num_format(total_interest1.toFixed(2))+"   万元");
     $('#total_month1').text(month+"   期");
-    $('#total_loan1').text(number_format(add(total_interest1,totalMoney),2,'.',',','round')+"   万元");
+    $('#total_loan1').text(num_format((add(total_interest1,totalMoney)).toFixed(2))+"   万元");
 
 
 

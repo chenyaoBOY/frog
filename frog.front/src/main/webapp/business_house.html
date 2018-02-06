@@ -136,7 +136,7 @@
 
 			<!--主体-->
 			<div class="layui-body">
-				<input type="hidden" id="house_status_value" value="0">
+				<input type="hidden" id="house_status_value" value="1">
 				<input type="hidden" id="original_value" value="1">
 				<input type="hidden" id="whether_two" value="0">
 				<input type="hidden" id="customer" value="1">
@@ -170,9 +170,9 @@
 							<label class="layui-form-label">房屋资质</label>
 							<div class="layui-input-inline" >
 								<select name="selectRate"  lay-filter="house_status" lay-filter="aihao" id="house_status" >
-									<option value="0" selected >  不满五唯一 </option>
-									<option value="1">  满五唯一 </option>
-									<option value="2">  不满五且不唯一 </option>
+									<option value="1" selected >  满五唯一 </option>
+									<option value="0">  已满两年  </option>
+									<option value="2">  不满两年  </option>
 								</select>
 							</div>
 							<div class="layui-form-mid layui-word-aux in_tip" id="house_status_tip" hidden="hidden"></div>
@@ -189,27 +189,20 @@
                             <div class="layui-form-mid layui-word-aux in_tip" id="selectRate_tip" hidden="hidden"></div>
 
                         </div>
-						<div class="layui-form-item original">
+						<div class="layui-form-item original" hidden="hidden">
 							<label class="layui-form-label">是否有原值</label>
 							<div class="layui-input-block">
 								<input type="checkbox" lay-filter="b1" id="b1"   title="有" checked>
 								<input type="checkbox" lay-filter="b2" id="b2"  title="无"  >
 							</div>
 						</div>
-						<div class="layui-form-item original" id="originalValueDiv">
+						<div class="layui-form-item original" id="originalValueDiv" hidden="hidden">
 							<label class="layui-form-label">原值</label>
 							<div class="layui-input-inline">
 								<input type="text" onblur="checkNumber(this,'originalValue_tip','1')" lay-filter="originalValue" id="originalValue" name="totalMoney" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
 								<div class="layui-form-mid layui-word-aux">单位：万元</div>
 							</div>
 							<div class="layui-form-mid layui-word-aux in_tip"  id="originalValue_tip" hidden="hidden"></div>
-						</div>
-						<div class="layui-form-item two">
-							<label class="layui-form-label">是否满两年</label>
-							<div class="layui-input-block">
-								<input type="checkbox" lay-filter="c1" id="c1" title="不满两年" checked>
-								<input type="checkbox" lay-filter="c2" id="c2"  title="满两年" >
-							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">客户资质</label>
